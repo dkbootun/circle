@@ -2,29 +2,33 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui";
 import { multiFormatDateString } from "@/lib/utils";
 import { useUserContext } from "@/context/AuthContext";
-import { useDeletePost, useGetPostById, useGetUserPosts } from "@/lib/react-query/queriesAndMutations";
+import {
+  useDeletePost,
+  useGetPostById,
+  useGetUserPosts,
+} from "@/lib/react-query/queriesAndMutations";
 import Loader from "@/components/shared/Loader";
 import PostStats from "@/components/shared/PostStats";
 import GridPostList from "@/components/shared/GridPostList";
 
 const PostDetails = () => {
   const navigate = useNavigate();
-  const { id = '' } = useParams();
+  const { id = "" } = useParams();
   const { user } = useUserContext();
 
-  const { data: post, isLoading } = useGetPostById(id || '');
+  const { data: post, isLoading } = useGetPostById(id || "");
   const { data: userPosts, isLoading: isUserPostLoading } = useGetUserPosts(
     post?.creator.$id
   );
-  const { mutate: deletePost } = useDeletePost();
+  const { mutate: deletePost, isPending: isDeleting } = useDeletePost();
 
   const relatedPosts = userPosts?.documents.filter(
     (userPost) => userPost.$id !== id
   );
 
   const handleDeletePost = () => {
-    deletePost({ postId: id ?? '', imageId: post?.imageId });
-    navigate(-1);
+    deletePost({ postId: id ?? "", imageId: post?.imageId });
+    navigate("/");
   };
 
   return (
@@ -33,7 +37,8 @@ const PostDetails = () => {
         <Button
           onClick={() => navigate(-1)}
           variant="ghost"
-          className="shad-button_ghost">
+          className="shad-button_ghost"
+        >
           <img
             src={"/assets/icons/back.svg"}
             alt="back"
@@ -58,7 +63,8 @@ const PostDetails = () => {
             <div className="flex-between w-full">
               <Link
                 to={`/profile/${post?.creator.$id}`}
-                className="flex items-center gap-3">
+                className="flex items-center gap-3"
+              >
                 <img
                   src={
                     post?.creator.imageUrl ||
@@ -86,7 +92,8 @@ const PostDetails = () => {
               <div className="flex-center gap-4">
                 <Link
                   to={`/update-post/${post?.$id}`}
-                  className={`${user.id !== post?.creator.$id && "hidden"}`}>
+                  className={`${user.id !== post?.creator.$id && "hidden"}`}
+                >
                   <img
                     src={"/assets/icons/edit.svg"}
                     alt="edit"
@@ -95,19 +102,24 @@ const PostDetails = () => {
                   />
                 </Link>
 
-                <Button
-                  onClick={handleDeletePost}
-                  variant="ghost"
-                  className={`ghost_details-delete_btn ${
-                    user.id !== post?.creator.$id && "hidden"
-                  }`}>
-                  <img
-                    src={"/assets/icons/delete.svg"}
-                    alt="delete"
-                    width={24}
-                    height={24}
-                  />
-                </Button>
+                {isLoading || !post ? (
+                  <Loader />
+                ) : (
+                  <Button
+                    onClick={handleDeletePost}
+                    variant="ghost"
+                    className={`ghost_details-delete_btn ${
+                      user.id !== post?.creator.$id && "hidden"
+                    }`}
+                  >
+                    <img
+                      src={"/assets/icons/delete.svg"}
+                      alt="delete"
+                      width={24}
+                      height={24}
+                    />
+                  </Button>
+                )}
               </div>
             </div>
 
@@ -119,7 +131,8 @@ const PostDetails = () => {
                 {post?.tags.map((tag: string, index: string) => (
                   <li
                     key={`${tag}${index}`}
-                    className="text-light-3 small-regular">
+                    className="text-light-3 small-regular"
+                  >
                     #{tag}
                   </li>
                 ))}
