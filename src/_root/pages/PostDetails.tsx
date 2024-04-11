@@ -102,7 +102,7 @@ const PostDetails = () => {
                   />
                 </Link>
 
-                {isLoading || !post ? (
+                {isDeleting || !post ? (
                   <Loader />
                 ) : (
                   <Button
