@@ -9,9 +9,13 @@ Reference video : [https://www.youtube.com/@javascriptmastery](https://www.youtu
 
 ## Technologies used
 [React + Vite + TS](https://vitejs.dev/guide/).
-[shadcn](https://ui.shadcn.com/)
-[TanStack](https://tanstack.com/)
-[Appwrite](https://cloud.appwrite.io/)
+
+[shadcn](https://ui.shadcn.com/).
+
+[TanStack](https://tanstack.com/).
+
+[Appwrite](https://cloud.appwrite.io/).
+
 [Vercel](https://vercel.com/).
 
 
