@@ -10,8 +10,7 @@ import GridPostList from "@/components/shared/GridPostList";
 
 const PostDetails = () => {
   const navigate = useNavigate();
-  const { newId } = useParams();;
-  const id = newId ?? ''
+  const { id } = useParams();;
   const { user } = useUserContext();
 
   const { data: post, isLoading } = useGetPostById(id);
@@ -100,7 +99,7 @@ const PostDetails = () => {
                 <Button
                   onClick={handleDeletePost}
                   variant="ghost"
-                  className={`ost_details-delete_btn ${
+                  className={`ghost_details-delete_btn ${
                     user.id !== post?.creator.$id && "hidden"
                   }`}>
                   <img
