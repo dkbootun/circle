@@ -1,5 +1,4 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-
 import { Button } from "@/components/ui";
 import { multiFormatDateString } from "@/lib/utils";
 import { useUserContext } from "@/context/AuthContext";
@@ -10,10 +9,10 @@ import GridPostList from "@/components/shared/GridPostList";
 
 const PostDetails = () => {
   const navigate = useNavigate();
-  const { id } = useParams();;
+  const { id = '' } = useParams();
   const { user } = useUserContext();
 
-  const { data: post, isLoading } = useGetPostById(id);
+  const { data: post, isLoading } = useGetPostById(id || '');
   const { data: userPosts, isLoading: isUserPostLoading } = useGetUserPosts(
     post?.creator.$id
   );
@@ -24,7 +23,7 @@ const PostDetails = () => {
   );
 
   const handleDeletePost = () => {
-    deletePost({ postId: id, imageId: post?.imageId });
+    deletePost({ postId: id ?? '', imageId: post?.imageId });
     navigate(-1);
   };
 
