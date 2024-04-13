@@ -1,3 +1,4 @@
+import { Regex } from "lucide-react";
 import * as z from "zod";
 
 // ============================================================
@@ -7,9 +8,7 @@ import * as z from "zod";
 const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 export const SignupValidation = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }).startsWith(alphabet, {
-    message: "Name must start with an alphabet",
-  }),
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   username: z.string().min(2, { message: "Name must be at least 2 characters." }).max(10, { message: "Name must be at most 10 characters." }).regex(/^[a-zA-Z]+$/, {
     message: "Username must contain only alphabets",
   }),
