@@ -42,7 +42,7 @@ const SignInform = () => {
     });
     if (!session) {
       return toast({
-        title: "Sign up failed. Please try again.",
+        title: "Sign in failed. Please try again.",
       });
     }
 
@@ -52,7 +52,7 @@ const SignInform = () => {
       form.reset();
       navigate("/");
     } else {
-      return toast({ title: "Sign up failed. Please try again." });
+      return toast({ title: "Sign in failed. Please try again." });
     }
   }
   return (
