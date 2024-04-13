@@ -1,11 +1,10 @@
-import { Regex } from "lucide-react";
+
 import * as z from "zod";
 
 // ============================================================
 // USER
 // ============================================================
 
-const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 export const SignupValidation = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
