@@ -31,10 +31,9 @@ const App = () => {
               <Route path = "/update-profile/:id" element={<UpdateProfile />}  />
             </Route>
 
-
-        </Routes>
         
-        <Toaster />
+        </Routes>
+        <Toaster  />
     </main>
   )
 }

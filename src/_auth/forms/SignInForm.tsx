@@ -12,11 +12,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
-import { Loader } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignInAccount } from "@/lib/react-query/queriesAndMutations";
 import { useUserContext } from "@/context/AuthContext";
 import { SigninValidation } from "@/lib/validation";
+import Loader from "@/components/shared/Loader";
 
 const SignInform = () => {
   const { toast } = useToast();
@@ -35,40 +35,47 @@ const SignInform = () => {
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof SigninValidation>) {
-    const session = await signInAccount({
-      email: values.email,
-      password: values.password,
-    });
+  const handleSignin = async (user: z.infer<typeof SigninValidation>) => {
+    const session = await signInAccount(user);
+
     if (!session) {
-      return toast({
-        title: "Sign in failed. Please try again.",
-      });
+      toast({
+        title: "Log-in failed",
+        description: "Wrong password or Email",
+      })
+      
+      return;
     }
 
     const isLoggedIn = await checkAuthUser();
 
     if (isLoggedIn) {
       form.reset();
+
       navigate("/");
     } else {
-      return toast({ title: "Sign in failed. Please try again." });
+      toast({
+        title: "Log-in failed",
+        description: "No authorisation !",
+      })
+      
+      return;
     }
-  }
+  };
   return (
     <Form {...form}>
-      <div className="sm:420 flex-center flex-col">
+      <div className="sm:w-420 flex-center flex-col">
         <img src="/assets/images/logo2.png" className="h-20" />
 
         <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">
           Log in to your account
         </h2>
-        <p className="text-light-3 small-medium md:base-regular">
+        <p className="text-light-3 small-medium md:base-regular mt-2">
           Please enter your details
         </p>
 
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(handleSignin)}
           className="flex flex-col gap-5 w-full mt-4"
         >
           <FormField
